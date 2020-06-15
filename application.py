@@ -1,5 +1,6 @@
 import os,json
 import requests
+import secrets
 from flask import Flask,render_template,request,session,logging,url_for,redirect,flash,jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session,sessionmaker
@@ -7,6 +8,7 @@ from passlib.hash import sha256_crypt
 
 from dotenv import load_dotenv
 load_dotenv()
+
 
 myapi= "qJy8eMVXru55W5wKSvsNw"
  
@@ -19,6 +21,8 @@ if not os.getenv("DATABASE_URL"):
 
 
 app=Flask(__name__)
+app.config['SECRET_KEY'] = 'd063c5b1f14666b0356e7422'  
+
 
 @app.route("/")
 def home():
