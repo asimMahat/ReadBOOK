@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang ="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name ="viewport" content="width=device-width,inital-scale=1.0">
+	<meta http-equiv="X-UA_Compatible" content="ie=edge">
+	<title>BOOKSPAGE</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<style type="text/css">
+  #bookSearchForm label{
+    color: #fff;
+  }
+  /* #bookSearchForm{ */
+    /* border: 1px solid #ddd; */
+
+  
+  /* } */
+</style>
+ 
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">BOOK-HUB</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      
+
+
+      {% if ( session["logged_in"] )  %}
+      
+
+      <form action="{{url_for('search')}}" id="bookSearchForm" method="post" class="form-inline my-2 my-lg-0">
+        
+        <div class="form-check form-check-inline">
+          <input class="form-check-input"  type="radio" name="searchby" id="isbn" value="isbn">
+          <label class="form-check-label" for="isbn">ISBN</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" checked="checked" type="radio" name="searchby" id="author" value="author">
+          <label class="form-check-label" for="author">Author</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="searchby" id="title" value="title" >
+          <label class="form-check-label" for="title">Title</label>
+        </div>
+
+        <div class="form-group mx-sm-3">
+          <label   class="sr-only">Search </label>
+          <input type="text" name="searchText"  class="form-control" value=""  placeholder="Search by author or 
+               book, or all to see all the data" aria-label="Search">
+       </div>
+
+       <button class="btn btn-primary" type="submit">Search</button>
+
+
+       <li class="nav-item ">
+        <a class="nav-link" href={{url_for("logout")}}>Logout <span class="sr-only">(current)</span></a>
+      </li>
+
+    </form>
+
+      {%else%}
+      <li class="nav-item ">
+        <a class="nav-link" href={{url_for("home")}}>Home<span class="sr-only">(current)</span></a>
+      </li>
+      
+      <li class="nav-item ">
+        <a class="nav-link" href={{url_for("register")}}>Registration <span class="sr-only">(current)</span></a>
+      </li>
+
+
+       <li class="nav-item ">
+        <a class="nav-link"  href={{url_for("login")}}>Log In <span class="sr-only">(current)</span></a>
+          </li>
+        
+       
+      {% endif %}
+
+    </ul>
+    
+  </div>
+</nav>
+    
+  {% include "includes/_message.html" %}
+
+	{% block body %}
+
+  
+	{% endblock  %}
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+CREATE TABLE useraccount
+(id  serial PRIMARY KEY,
+username VARCHAR(20) UNIQUE NOT NULL,
+password VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE books(
+    id serial PRIMARY KEY,
+	isbn VARCHAR(50) UNIQUE NOT NULL,
+	title VARCHAR(100)  NOT NULL,
+	author VARCHAR(50)  NOT NULL,
+	year VARCHAR(4) NOT NULL
+);
+
+CREATE TABLE user_reviews(
+	id serial PRIMARY KEY,
+	user_id INTEGER,
+	book_id INTEGER,
+	comment VARCHAR(500) NOT NULL,
+	rating INTEGER
+	);
+
+alter table reviews add constraint cons_userid foreign key(user_id) refrences useraccount(id);
+alter table reviews add constraint cons_booksid foreign key(book_id) references books(id);
+

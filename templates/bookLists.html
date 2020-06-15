@@ -1,0 +1,30 @@
+<!-- Here we have to show all the books in our database and should be able to search for the book based on ISBN number author,title or the year -->
+
+{% extends "layout.html"%}
+  <h1>Welcome to your profile</h1>
+ 
+   {% block body %}
+    <h1>All Books</h1>
+
+    {% if searchBy is defined %}
+
+    Search By : {{ searchBy }}<br/>
+
+    Search Text : {{ searchText }}
+    
+    {% endif %}
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{{ url_for('bookDetails', id=book.id) }}">
+                    TITLE : {{book.title}}-------AUTHOR : {{book.author}}---------PUBLISHED YEAR : {{book.year}}-----ISBN : {{book.isbn}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
+
+
