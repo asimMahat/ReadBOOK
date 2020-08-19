@@ -11,17 +11,17 @@ load_dotenv()
 
 
 myapi= "qJy8eMVXru55W5wKSvsNw"
- 
+
 engine = create_engine(os.getenv("DATABASE_URL"))
 db= scoped_session(sessionmaker(bind=engine))
- 
+
 
 if not os.getenv("DATABASE_URL"):
 	raise RuntimeError("DATABASE_URL is not set")
 
 
 app=Flask(__name__)
-app.config['SECRET_KEY'] = 'd063c5b1f14666b0356e7422'  
+app.config['SECRET_KEY'] = 'd063c5b1f14666b0356e7422'
 
 
 @app.route("/")
@@ -32,7 +32,7 @@ def home():
 @app.route("/register",methods=["GET","POST"])
 def register():
 	if request.method == "POST":
-		
+
 		username = request.form.get("username")
 		# Ensure username was submitted
 		if not request.form.get("username"):
@@ -82,7 +82,7 @@ def login():
 		# print(password)
 		data = db.execute("SELECT * FROM useraccount WHERE username=:username",{"username":username}).fetchone()
 		# print(session)
- 
+
 		if data is None:
 			flash("You are not registered,Please register and try again.","danger")
 			return render_template("login.html")
@@ -104,7 +104,7 @@ def login():
 				flash("Incorrect password!")
 
 	return render_template("login.html")
- 
+
 #display list of book
 @app.route("/bookLists")
 def bookLists():
@@ -136,7 +136,7 @@ def search():
 	searchText = request.form.get("searchText").lower();
 	searchBy = request.form.get("searchby")
 	results = []
-	
+
 	if searchBy == 'isbn':
 		results = db.execute("SELECT * FROM books WHERE lower(isbn) LIKE '%"+searchText+"%'").fetchall()
 	elif searchBy == 'title':
@@ -157,7 +157,7 @@ def logout():
 @app.route("/submit_bookreview/<book_id>", methods=["POST"])
 def submit_bookreview(book_id):
 	current_user=session["loggedin_userid"]
-	 
+
 	# book_id=request.form.get('book_id')
 	comment=request.form.get('comment')
 	rating=request.form.get('rating')
@@ -172,13 +172,13 @@ def submit_bookreview(book_id):
 
 	db.execute("INSERT INTO user_reviews(user_id,book_id,comment,rating) VALUES(:user_id,:book_id,:comment,:rating)",
 		{"user_id":current_user, "book_id":book_id, "comment":comment, "rating":rating})
-		 
+
 	db.commit()
 	flash("Your review has been submitted","info")
-	
+
 	return redirect("/bookDetails/"+book_id)
 
-#making our own API	
+#making our own API
 @app.route("/api/<isbn>", methods=['GET'])
 def api_call(isbn):
 	book =  db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
@@ -207,11 +207,11 @@ def api_call(isbn):
 		"isbn": book.isbn,
 		"review_count":count,
 		"average_score":average_rating
-		 
+
 		}
 	return jsonify(result)
 
-	 
+
 if __name__=="__main__":
 	app.secret_key="thisismysecretkey"
 	app.run(debug=True)
