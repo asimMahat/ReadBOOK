@@ -1,4 +1,4 @@
-# GoodReads
+# ReadBOOK
 An online book store 
 Build with python-flask.
 
